@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "grunt css-themes",
-    "prestart": "npm run build",
+    "other": "npm run build",
     "start": "node server.js",
     "dev": "NODE_ENV=development npm start",
     "prod": "NODE_ENV=production npm start",
