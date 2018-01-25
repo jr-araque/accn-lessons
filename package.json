@@ -1,0 +1,49 @@
+{
+  "name": "accn-classes",
+  "version": "0.1.0",
+  "description": "Simple Presentations for JS Academy",
+  "main": "server.js",
+  "scripts": {
+    "build": "grunt css-themes",
+    "prestart": "npm run build",
+    "start": "node server.js",
+    "dev": "NODE_ENV=development npm start",
+    "prod": "NODE_ENV=production npm start",
+    "test": "echo \"I'm Faking this tests...\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jr-araque/accn-lessons.git"
+  },
+  "author": "Jose Reinaldo Araque",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jr-araque/accn-classes/issues"
+  },
+  "homepage": "https://github.com/jr-araque/accn-classes#readme",
+  "dependencies": {
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
+    "hbs": "^4.0.1",
+    "path": "^0.12.7",
+    "reveal.js": "^3.6.0",
+    "socket.io": "^2.0.4",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.0",
+    "@types/winston": "^2.3.7",
+    "grunt": "^1.0.1",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-cssmin": "^2.1.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-qunit": "~1.2.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-retire": "^1.0.7",
+    "grunt-sass": "^2.0.0",
+    "grunt-zip": "~0.17.1"
+  }
+}
