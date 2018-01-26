@@ -456,6 +456,7 @@ describe("Trivia Spec 5", function(){
                 <ul>
                     <li><a href="https://karma-runner.github.io/2.0/index.html">Karma</a> - Test Runner</li>
                     <li><a href="https://jasmine.github.io/">Jasmine</a> - Behavior Driven Testing Framework</li>
+                    <li>Angular Unit Test Utilities</li>
                 </ul>
             </section>
             <section>
@@ -491,6 +492,54 @@ describe("Trivia Spec 5", function(){
                 </ul>
             </section>
         </section>
+        <section>
+            <h4>Integration Test</h4>
+            <section>
+                <pre><code data-trim>
+import { TestBed, async } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+describe('AppComponent', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  }));
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
+});
+
+                </code></pre>
+            </section>
+        </section>
+        <section>
+            <h4>Isolated Test</h4>
+            <section>
+                <pre><code data-trim>
+import { RandomPipe } from './random.pipe';
+
+describe('RandomPipe', () => {
+  it('should create an instance', () => {
+    const pipe = new RandomPipe();
+    expect(pipe).toBeTruthy();
+  });
+
+  it('should transform any number to another random number', () => {
+    const testValue = 300;
+    const pipe = new RandomPipe();
+
+    expect(pipe.transform(testValue)).toBeLessThanOrEqual(testValue);
+    expect(pipe.transform(testValue)).toBeGreaterThanOrEqual(0);
+  });
+});
+                </code></pre>
+            </section>
+        </section>
+
         <!-- ./REINALDO -->
         <!-- Q&A -->
         <section>
