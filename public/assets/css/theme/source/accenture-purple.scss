@@ -1,0 +1,68 @@
+/**
+ * White theme for reveal.js. This is the opposite of the 'black' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(../../lib/font/graphik-accenture-web/graphik-accenture-web.css);
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: black;
+
+$mainColor: #C049FD;
+$headingColor: #BD00FF;
+
+$mainFontSize: 40px;
+$mainFont: 'Graphik Accenture', Helvetica, sans-serif;
+$headingFont: 'Graphik Accenture', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: #00F3FF;
+$linkColorHover: darken( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 35% );
+
+$heading1Size: 2em;
+$heading2Size: 1.5em;
+$heading3Size: 1.2em;
+$heading4Size: 1.0em;
+
+section.has-dark-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+section.has-light-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #000;
+	}
+}
+
+.custom-header {
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.custom-header img {
+	position: absolute;
+	z-index: 1;
+	float: right;
+	padding: 1rem;
+}
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------

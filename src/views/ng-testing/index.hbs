@@ -1,3 +1,669 @@
-<h1>
-    Testing
-</h1>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Angular 2+ Advanced Routing</title>
+
+    <link rel="shortcut icon" type="image/png" href="/favicon-16x16.png"/>
+    <link rel="stylesheet" href="/assets/css/reveal.css">
+    <link rel="stylesheet" href="/assets/css/theme/accenture-purple.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/assets/lib/css/solarized-dark.css">
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/assets/css/print/pdf.css' : '/assets/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="custom-header">
+        <img src="/assets/img/accn/dimensional-purple-accn-technology.png" alt="Accenture Technology Logo" height="150px" width="150px">
+    </div>
+    <div class="slides">
+        <!-- Title & Presentation -->
+        <section>
+            <section>
+                <img src="/assets/img/accn/accn-technology-all-white.png" alt="Accenture Technology" style="border:0; background: transparent;width:30rem;">
+                <h1>Unit Testing in Angular 2+</h1>
+            </section>
+            <section>
+                <h2>About this session</h2>
+                <br>
+                <h6 style="font-weight:lighter; font-style:italic;">Faculties:</h6>
+                <br>
+                <h4>
+                    Eduardo Guzmán Martinez
+                </h4>
+                <h4 style="font-style:italic;">
+                    (EID:  e.guzman.martinez)
+                </h4>
+                <br>
+                <h4>
+                    José Reinaldo Araque
+                </h4>
+                <h4 style="font-style:italic;">
+                    (EID: jose.reinaldo.araque)
+                </h4>
+            </section>
+        </section>
+        <!-- EDUARDO -->
+        <section>
+            <h3>Unit Testing</h3>
+        </section>
+        <section>
+            Unit Testing
+            <section>
+                <ol>
+                    <li>¿Qué son los unit tests?</li>
+                    <li>¿Y ésto de qué me sirve?</li>
+                    <li>Frameworks para unit testing en Javascript</li>
+                    <li>Assertions</li>
+                    <li>Spies</li>
+                    <li>Trivia</li>
+                </ol>
+            </section>
+        </section>
+        <section>
+            ¿Qué son los unit tests?
+            <section>Su propósito es el probar, de manera aislada, que pequeñas unidades de código funcionen correctamente.</section>
+            <section>Es decir, prueban las funciones en nuestro programa.</section>
+            <section>Existen otro tipo de pruebas, como lo son los integration tests, que prueban la comunicación entre componentes.</section>
+            <section>Tipos de pruebas sobran, pero es responsabilidad del desarrollador el hacer las pruebas unitarias de su código.</section>
+            <section>Usualmente se utilizan herramientas adicionales para correr las pruebas unitarias</section>
+        </section>
+        <section>
+            ¿Y ésto de qué me sirve?
+            <section>
+                Bueno, supongamos que tienes una función que resta dos números dados:
+                <pre><code data-trim>
+function substract(a, b){
+	return a - b;
+}
+						</code></pre>
+            </section>
+            <section>
+                Ahora se te pide que la función no pueda devolver números negativos. Así que cambias tu código para reflejar esto:
+                <pre><code data-trim>
+function substract(a, b){
+    var result = a - b;
+    return result > 0 ? 0 : result;
+}
+						</code></pre>
+            </section>
+            <section>Aquí el problema es que accidentalmente tecleaste mal e introdujiste el símbolo erróneo. </section>
+            <section>La expresión es válida, pero la lógica incorrecta. Este error pasará desapercibido y luego te preguntarás por qué no funciona. </section>
+            <section>De haber hecho tu prueba unitaria, hubieras podido detectar el error a tiempo. </section>
+            <section>Usualmente se pide un coverage del 80% o más, dependiendo del proyecto y el cliente.</section>
+        </section>
+        <section>
+            <h4>Frameworks para Unit Testing en Javascript</h4>
+            <section>
+                Existen varios frameworks que podemos utilizar para realizar nuestras pruebas unitarias. Entre los más populares se encuentran Jasmine, Mocha y Chai.
+                <br><br>
+                Para esta sesión nos enfocaremos en Jasmine.
+            </section>
+            <section><img src="https://cdn.worldvectorlogo.com/logos/jasmine-1.svg" width="30%" style="background-color: ghostwhite; border: 0; padding: 1rem"> <br> En Jasmine, a los tests se les conoce como <i><b>specs</b></i>. Un conjunto de pruebas, o specs, se les conoce como <i><b>suites</b></i>.</section>
+            <section>Los suites básicamente agrupan de manera lógica un conjunto de pruebas.</section>
+            <section>
+                En Jasmine, para crear una suite se utiliza la función <i><b>describe()</b></i>
+                <pre><code data-trim>
+								describe("Esto es un texto descriptivo de la suite", function(){});
+						</code></pre>
+            </section>
+            <section>
+                Asimismo, para crear un spec se utiliza la función <i><b>it()</b></i>
+                <pre><code data-trim>
+								it("Esto es un texto descriptivo del spec", function(){});
+						</code></pre>
+            </section>
+            <section>Ambas funciones llevan como primer argumento un texto descriptivo, describiendo lo que se está probando, seguido de una función. Al aceptar una función, se puede utilizar dentro cualquier tipo de instrucción válida de Javascript.</section>
+            <section>
+                Por lo tanto, podemos llamar a <b><i>it()</i></b> dentro del <b><i>describe()</i></b> tantas veces como sea necesario.
+                <pre><code data-trim>
+describe("Calculator Spec", function(){
+  it("Should substract the second number from the first one", function(){
+    var result = substract(5, 3);
+    expect(result).toBe(2);
+  });
+});
+						</code></pre>
+            </section>
+            <section>Cada spec debe tener una o varias expectativas de lo que se quiere probar. Se hace una comprobación mediante la función <b><i>expect()</i></b>, encadenándola con alguna otra función, llamadas "matcher".</section>
+            <section>Estas <i>"matcher functions"</i> lo único que hacen es comprobar si el valor que les diste coincide con lo que esperas, devolviendo un true o false.</section>
+        </section>
+        <section>
+            <h4>Assertions</h4>
+            <section>
+                <i>calculator.js</i>
+                <pre><code data-trim>
+function multiplyByThree(a){
+  return a * 3;
+}
+						</code></pre>
+                <i>calculatorSpec.js</i>
+                <pre><code data-trim>
+describe("Calculator Spec", function(){
+  it("Should multiply by three any given number", function(){
+    var result = multiplyByThree(3);
+    expect(result).toBe(9); //Works like a === operator
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>calculator.js</i>
+                <pre><code data-trim>
+function multiplyByThree(a){
+    return a * 3;
+}
+						</code></pre>
+                <i>calculatorSpec.js</i>
+                <pre><code data-trim>
+describe("Calculator Spec", function(){
+  it("Should multiply by three any given number", function(){
+    var result = multiplyByThree(3);
+    expect(result).not.toBe(6);
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>book.js</i>
+                <pre><code data-trim>
+function Book(title, pages){
+  this.title = title;
+  this.pages = pages;
+}
+						</code></pre>
+                <i>bookSpec.js</i>
+                <pre><code data-trim>
+describe("Book Spec", function(){
+  it("Should check if both books are equal", function(){
+    var book1 = new Book("Harry Potter", "J.K.Rowling");
+    var book2 = new Book("Harry Potter", "J.K.Rowling");
+    expect(book1).toEqual(book2); //Deep equals
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>book.js</i>
+                <pre><code data-trim>
+function Book(title, pages){
+  this.title = title;
+  this.pages = pages;
+}
+						</code></pre>
+                <i>bookSpec.js</i>
+                <pre><code data-trim>
+describe("Book Spec", function(){
+  it("Should check if the book has a title and publisher", function(){
+    var book1 = new Book("Harry Potter", "J.K.Rowling");
+    expect(book1.title).toBeDefined();
+    expect(book1.publisher).toBeUndefined();
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>student.js</i>
+                <pre><code data-trim>
+function Student(name){
+  this.name = name;
+  this.subjects = ["Maths", "Chemistry", "Biology"];
+}
+						</code></pre>
+                <i>studentSpec.js</i>
+                <pre><code data-trim>
+describe("Student Spec", function(){
+  it("Should check if 'mi' is found in the student's properties", function(){
+    var student1 = new Student("Michael Thompson");
+    expect(student1.name).toContain("Mi");
+    expect(student1.subjects).not.toContain("Mi");
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>student.js</i>
+                <pre><code data-trim>
+function Student(name, age){
+  this.name = name;
+  this.subjects = ["Maths", "Chemistry", "Biology"];
+  this.age = age;
+}
+						</code></pre>
+                <i>studentSpec.js</i>
+                <pre><code data-trim>
+describe("Student Spec", function(){
+  it("Should check if it's between the allowed age range", function(){
+    var student1 = new Student("Michael Thompson", 23);
+    expect(student1.age).toBeGreaterThan(18);
+    expect(student1.age).toBeLessThan(25);
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>dummySpec.js</i>
+                <pre><code data-trim>
+describe("Dummy Spec", function(){
+  var counter = 0;
+
+  beforeEach(function(){
+      counter += 1;
+  });
+
+  it("Should have 1 at the beginning", function(){
+    expect(counter).toBe(1);
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i>dummySpec.js</i>
+                <pre><code data-trim>
+describe("Dummy Spec", function(){
+  var counter = 0;
+
+  afterEach(function(){
+      counter += 1;
+  });
+
+  it("Should have 0 at the beginning", function(){
+    expect(counter).toBe(0);
+  });
+
+  it("Should have 1 at the end", function(){
+    expect(counter).toBe(1);
+  });
+});
+						</code></pre>
+            </section>
+            <section>También existen <b><i>beforeAll()</i></b> y <b><i>afterAll()</i></b>, que se ejecutan antes de que comience la suite, o una vez se terminen de ejecutar todos los tests, respectivamente.</section>
+        </section>
+        <section>
+            <h4>Spies</h4>
+            <section>
+                Como su nombre lo indica, revisan la ejecución de las funciones, dándonos muchos datos acerca de ellas, como por ejemplo:
+                <br><br>
+                <ul>
+                    <li>Cuántas veces se ejecutaron</li>
+                    <li>Con cuántos argumentos se ejecutaron</li>
+                    <li>Qué valores traían sus argumentos</li>
+                </ul>
+            </section>
+            <section>
+                <i style="clear: both">spySpec.js</i>
+                <pre><code data-trim>
+describe("Playing With Spies", function(){
+  var calculator = {
+    add: function(a, b) { return a + b; }
+  };
+
+  beforeEach(function(){
+    spyOn(calculator, 'add');
+    calculator.add(5,3);
+    calculator.add(5.5, 2.2);
+  });
+
+  it("Track if 'add' was called", function(){
+    expect(calculator.add).toHaveBeenCalled();
+  });
+
+  it("Track how many times 'add' was called", function(){
+    expect(calculator.add).toHaveBeenCalledTimes(2);
+  });
+
+  it("Track which arguments were used with 'add'", function() {
+    expect(calculator.add).toHaveBeenCalledWith(5, 3);
+    expect(calculator.add).toHaveBeenCalledWith(5.5, 2.2);
+  });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i style="clear: both">spySpec.js</i>
+                <pre><code data-trim>
+describe("Playing With Spies", function(){
+    var calculator = {
+        add: function(a, b) { return a + b; }
+    };
+
+    it("Track if 'add' was called", function(){
+        spyOn(calculator, 'add').and.callThrough();
+        var result = calculator.add(5,3);
+        expect(calculator.add).toHaveBeenCalled();
+        expect(calculator.add).toHaveBeenCalledWith(5,3);
+        expect(result).toBe(8);
+    });
+});
+						</code></pre>
+            </section>
+            <section>
+                <i style="clear: both">spySpec.js</i>
+                <pre><code data-trim>
+describe("Playing With Spies", function(){
+    var calculator = {
+        add: function(a, b) { return a + b; }
+    };
+
+    it("Track if 'add' was called", function(){
+        spyOn(calculator, 'add').and.returnValue(777);
+        var result = calculator.add(5,3);
+        expect(calculator.add).toHaveBeenCalled();
+        expect(calculator.add).toHaveBeenCalledWith(5,3);
+        expect(result).toBe(777);
+    });
+});
+						</code></pre>
+            </section>
+        </section>
+        <section>
+            <h4>Trivia</h4>
+            <section>
+						<pre><code data-trim>
+describe("Trivia Spec", function(){
+    it("#1", function(){
+        var conundrum = (true && true) && (false || true)  ;
+        expect(conundrum).not.toBe(!!conundrum);
+    });
+
+    it("#2", function(){
+       expect(conundrum).toBeFalsy();
+    });
+});
+						</code></pre>
+            </section>
+            <section>
+						<pre><code data-trim>
+describe("Trivia Spec", function(){
+    var conundrum = 0;
+
+    beforeEach(function(){ conundrum += 1; });
+
+    describe("Another suite", function(){
+        beforeEach(function(){ conundrum += 2; });
+
+        it("#3", function(){ expect(conundrum).toBe(2); });
+    });
+
+    it("#4", function(){ expect(conundrum).toBe(3); });
+});
+						</code></pre>
+            </section>
+            <section>
+						<pre><code data-trim>
+describe("Trivia Spec", function(){
+    it("#5", function(){
+        var conundrum;
+        expect(conundrum).toBeNull(3);
+    });
+
+    xit("#6", function(){
+        var result = 899 / 0;
+        expect(result).toBe(0);
+    });
+});
+						</code></pre>
+            </section>
+            <section>
+						<pre><code data-trim>
+describe("Trivia Spec", function(){
+    it("#7", function(){
+        var a = {
+            just8: function() { return 8; }
+        };
+
+        spyOn(a, 'just8');
+        var result = a.just8();
+        expect(a.just8).toHaveBeenCalled();
+        expect(result).toBe(4 * 2);
+    });
+});
+						</code></pre>
+            </section>
+            <section>
+						<pre><code data-trim>
+describe("Trivia Spec 5", function(){
+    it("#8", function(){
+        var b = {
+            complexFx: function(){
+                return (7 + 8) / 5 - (3 * Math.pow(2,2));
+            }
+        };
+        spyOn(b, 'complexFx').and.returnValue(b.complexFx);
+        var result = b.complexFx();
+        expect(result).toBe(-9);
+    });
+});
+						</code></pre>
+            </section>
+        </section>
+        <!-- ./EDUARDO -->
+        <!-- REINALDO -->
+        <section>
+            <section><h3>Angular 2+ Tests</h3></section>
+            <section>
+                <h4>Herramientas</h4>
+                <ul>
+                    <li><a href="https://karma-runner.github.io/2.0/index.html">Karma</a> - Test Runner</li>
+                    <li><a href="https://jasmine.github.io/">Jasmine</a> - Behavior Driven Testing Framework</li>
+                </ul>
+            </section>
+            <section>
+
+                <h4>Isolated Tests</h4>
+                <ul>
+                    <li>Solo las Clases & funciones - No el Template</li>
+                    <li>Simple Configuración</li>
+                    <li>Generalmente usado para services & pipes</li>
+                </ul>
+                <br>
+                <h4>Integrated Tests</h4>
+                <ul>
+                    <li>Prueba todos los elementos del Componente</li>
+                    <li>Configuración relativamente compleja</li>
+                    <li>Usado en components & directives</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Isolated Test - Demo</h4>
+                <ul>
+                    <li>Mocks</li>
+                    <li>beforeEach</li>
+                    <li>Assertions</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Integration Test - Demo</h4>
+                <ul>
+                    <li>TestBed (Instancia: Module, Component & Template)</li>
+                    <li>Deep vs Shallow</li>
+                    <li>¿Cual es el Valor del Integration Test ?</li>
+                </ul>
+            </section>
+        </section>
+        <!-- ./REINALDO -->
+        <!-- Q&A -->
+        <section>
+            <h2>Questions?</h2>
+            <aside class="notes">
+            </aside>
+        </section>
+        <!-- The End -->
+        <section>
+            <h2>THANK YOU</h2>
+            <aside class="notes">
+            </aside>
+        </section>
+    </div>
+</div>
+
+<script src="/assets/lib/js/head.min.js"></script>
+<script src="/assets/js/reveal.js"></script>
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1,
+
+        // Display presentation control arrows
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'visible',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Set default timing of 2 minutes per slide
+        defaultTiming: 5,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (video/audio/iframe)
+        // - null: Media will only autoplay if data-autoplay is present
+        // - true: All media will autoplay, regardless of individual setting
+        // - false: No media will autoplay, regardless of individual setting
+        autoPlayMedia: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: Reveal.navigateNext,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // Hides the address bar on mobile devices
+        hideAddressBar: true,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Parallax background image
+        parallaxBackgroundImage: '/assets/img/bg/parallax-bg-main-12.jpeg', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+
+        // Parallax background size
+        parallaxBackgroundSize: '2100px 900px', // CSS syntax, e.g. "2100px 900px"
+
+        // Number of pixels to move the parallax background per slide
+        // - Calculated automatically unless specified
+        // - Set to 0 to disable movement along an axis
+        parallaxBackgroundHorizontal: null,
+        parallaxBackgroundVertical: null,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Realtime Live Presentation
+        multiplex: {
+            {{#if master}}
+                secret: '{{ multiplex.secret }}',
+            {{else}}
+                secret: null,
+            {{/if}}
+            id: '{{ multiplex.id }}',
+            url: '{{ multiplex.url }}' // Location of socket.io server
+        },
+        dependencies: [
+            // Online Real-Time Presentation
+            { src: '//cdn.socket.io/socket.io-1.4.5.js', async: true },
+            {{#if master}}
+                { src: '/assets/plugin/multiplex/master.js', async: true },
+            {{else}}
+                { src: '/assets/plugin/multiplex/client.js', async: true },
+            {{/if}}
+
+            // Base Dependencies
+            { src: '/assets/plugin/markdown/marked.js' },
+            { src: '/assets/plugin/markdown/markdown.js' },
+            { src: '/assets/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+    });
+</script>
+</body>
+</html>
