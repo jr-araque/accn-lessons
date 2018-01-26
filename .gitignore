@@ -63,4 +63,8 @@ typings/
 .next
 
 # Presentation Secrets
+config/secrets.js
+
+.idea
+
 
