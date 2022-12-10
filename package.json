@@ -22,7 +22,7 @@
   "homepage": "https://github.com/jr-araque/accn-classes#readme",
   "dependencies": {
     "compression": "^1.7.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "hbs": "^4.0.4",
     "path": "^0.12.7",
     "reveal.js": "^3.8.0",
